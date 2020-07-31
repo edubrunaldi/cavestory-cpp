@@ -1,7 +1,7 @@
 #pragma once
 #define SDL_MAIN_HANDLED
 
-#include "animatedSprite.h"
+#include "player.h"
 class Graphics;
 
 class Game
@@ -14,6 +14,6 @@ private:
 	void draw(Graphics& graphics);
 	void update(float elapsedTime);
 
-	AnimatedSprite player;
+	Player player;
 };
 
