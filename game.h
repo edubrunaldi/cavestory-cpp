@@ -2,6 +2,7 @@
 #define SDL_MAIN_HANDLED
 
 #include "player.h"
+#include "level.h"
 class Graphics;
 
 class Game
@@ -15,5 +16,6 @@ private:
 	void update(float elapsedTime);
 
 	Player player;
+	Level level;
 };
 
