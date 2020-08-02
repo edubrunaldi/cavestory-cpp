@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 #include <string>
+#include "rectangle.h"
+#include "global.h"
 
 class Graphics;
 /* Sprite class
@@ -15,9 +17,14 @@ public:
 	virtual ~Sprite();
 	virtual void update();
 	void draw(Graphics& graphics, int x, int y);
+
+	const Rectangle getBoundingBox() const;
+	const sides::Side getCollisionSide(Rectangle& other) const;
 protected:
 	SDL_Rect sourceRect;
 	SDL_Texture* spriteSheet;
 	float x, y;
+
+	Rectangle boundingBox;
 };
 

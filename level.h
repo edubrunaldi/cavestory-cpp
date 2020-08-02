@@ -1,6 +1,8 @@
 #pragma once
 
 #include "global.h"
+#include "rectangle.h"
+#include "slope.h"
 #include <vector>
 #include <string>
 #include "tile.h"
@@ -18,6 +20,10 @@ public:
 
 	void update(int elapsedTime);
 	void draw(Graphics& graphics);
+
+	std::vector<Rectangle> checkTileCollisions(const Rectangle& other);
+	std::vector<Slope> checkSlopeCollisions(const Rectangle& other);
+	const Vector2 getPlayerSpawnPoint() const;
 private:
 	std::string mapName;
 	Vector2 spawnPoint;
@@ -29,6 +35,8 @@ private:
 
 	std::vector<Tile> tileList;
 	std::vector<Tileset> tilesets;
+	std::vector<Rectangle> collisionRects;
+	std::vector<Slope> slopes;
 
 	void loadMap(std::string mapName, Graphics& graphics);
 };
