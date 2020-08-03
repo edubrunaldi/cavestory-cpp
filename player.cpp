@@ -16,7 +16,9 @@ Player::Player(Graphics& graphics, Vector2 spawnPoint) :
 	dx(0),
 	dy(0),
 	facing(RIGHT),
-	grounded(false)
+	grounded(false),
+	lookingDown(false),
+	lookingUp(false)
 {
 	graphics.loadImage("content/sprites/MyChar.png");
 	this->setupAnimations();
@@ -43,20 +45,60 @@ void Player::update(float elapsedTime) {
 }
 
 void Player::moveLeft() {
+	if (this->lookingDown && this->grounded) {
+		return;
+	}
 	this->dx = -player_constants::WALK_SPEED;
-	this->playAnimation("RunLeft");
+	if (!this->lookingUp) {
+		this->playAnimation("RunLeft");
+	}
 	this->facing = LEFT;
 }
 
 void Player::moveRight() {
+	if (this->lookingDown && this->grounded) {
+		return;
+	}
 	this->dx = player_constants::WALK_SPEED;
-	this->playAnimation("RunRight");
+	if (!this->lookingUp) {
+		this->playAnimation("RunRight");
+	}
 	this->facing = RIGHT;
 }
 
 void Player::stopMoving() {
 	this->dx = 0.0f;
-	this->playAnimation(this->facing == RIGHT ? "IdleRight" : "IdleLeft");
+	if (!this->lookingUp && !this->lookingDown) {
+		this->playAnimation(this->facing == RIGHT ? "IdleRight" : "IdleLeft");
+	}
+}
+
+void Player::lookUp() {
+	this->lookingUp = true;
+	if (this->dx == 0) {
+		this->playAnimation(this->facing == RIGHT ? "IdleRightUp" : "IdleLeftUp");
+	}
+	else {
+		this->playAnimation(this->facing == RIGHT ? "RunRightUp" : "RunLeftUp");
+	}
+}
+
+void Player::stopLookingUp() {
+	this->lookingUp = false;
+}
+
+void Player::lookDown() {
+	this->lookingDown = true;
+	if (this->grounded) {
+		this->playAnimation(this->facing == RIGHT ? "LookBackwardsRight" : "LookBackwardsLeft");
+	}
+	else {
+		this->playAnimation(this->facing == RIGHT ? "LookDownRight" : "LookDownLeft");
+	}
+}
+
+void Player::stopLookingDown() {
+	this->lookingDown = false;
 }
 
 void Player::jump() {
@@ -136,6 +178,14 @@ void Player::setupAnimations() {
 	this->addAnimation(1, 0, 16, "IdleRight", 16, 16, Vector2(0, 0));
 	this->addAnimation(3, 0, 0, "RunLeft", 16, 16, Vector2(0, 0));
 	this->addAnimation(3, 0, 16, "RunRight", 16, 16, Vector2(0, 0));
+	this->addAnimation(1, 3, 0, "IdleLeftUp", 16, 16, Vector2(0, 0));
+	this->addAnimation(1, 3, 16, "IdleRightUp", 16, 16, Vector2(0, 0));
+	this->addAnimation(3, 3, 0, "RunLeftUp", 16, 16, Vector2(0, 0));
+	this->addAnimation(3, 3, 16, "RunRightUp", 16, 16, Vector2(0, 0));
+	this->addAnimation(1, 6, 0, "LookDownLeft", 16, 16, Vector2(0, 0));
+	this->addAnimation(1, 6, 16, "LookDownRight", 16, 16, Vector2(0, 0));
+	this->addAnimation(1, 7, 0, "LookBackwardsLeft", 16, 16, Vector2(0, 0));
+	this->addAnimation(1, 7, 16, "LookBackwardsRight", 16, 16, Vector2(0, 0));
 }
 
 

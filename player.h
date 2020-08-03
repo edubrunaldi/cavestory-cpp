@@ -18,6 +18,11 @@ public:
 	void moveRight();
 	void stopMoving();
 
+	void lookUp();
+	void stopLookingUp();
+	void lookDown();
+	void stopLookingDown();
+
 	void jump();
 
 	void animationDone(std::string currentAnimation);
@@ -27,7 +32,6 @@ public:
 	const float getY() const;
 
 	void handleTileCollisions(std::vector<Rectangle>& others);
-
 	void handleSlopeCollisions(std::vector<Slope>& others);
 
 private:
@@ -36,5 +40,8 @@ private:
 	Direction facing;
 
 	bool grounded;
+
+	bool lookingUp;
+	bool lookingDown;
 };
 

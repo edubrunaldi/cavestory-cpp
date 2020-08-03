@@ -58,8 +58,22 @@ void Game::gameLoop() {
 			this->player.moveRight();
 		}
 
+		if (input.isKeyHeld(SDL_SCANCODE_UP)) {
+			this->player.lookUp();
+		}
+		else if (input.isKeyHeld(SDL_SCANCODE_DOWN)) {
+			this->player.lookDown();
+		}
+
 		if (input.wasKeyPressed(SDL_SCANCODE_Z) == true) {
 			this->player.jump();
+		}
+
+		if (input.wasKeyReleased(SDL_SCANCODE_UP)) {
+			this->player.stopLookingUp();
+		}
+		if (input.wasKeyReleased(SDL_SCANCODE_DOWN)) {
+			this->player.stopLookingDown();
 		}
 
 		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
