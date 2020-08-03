@@ -3,6 +3,7 @@
 #include "global.h"
 #include "rectangle.h"
 #include "slope.h"
+#include "animatedTile.h"
 #include <vector>
 #include <string>
 #include "tile.h"
@@ -37,8 +38,11 @@ private:
 	std::vector<Tileset> tilesets;
 	std::vector<Rectangle> collisionRects;
 	std::vector<Slope> slopes;
+	std::vector<AnimatedTile> animatedTileList;
+	std::vector<AnimatedTileInfo> animatedTileInfos;
 
 	void loadMap(std::string mapName, Graphics& graphics);
+	Vector2 getTilesetPosition(Tileset tls, int gid, int tileWidth, int tileHeight);
 };
 
 // tileset structure
