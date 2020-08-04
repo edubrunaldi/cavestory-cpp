@@ -30,6 +30,8 @@ public:
 
 	const float getX() const;
 	const float getY() const;
+	const inline int getMaxHealth() const { return this->maxHealth; }
+	const inline int getCurrentHealth() const { return this->currentHealth; }
 
 	void handleTileCollisions(std::vector<Rectangle>& others);
 	void handleSlopeCollisions(std::vector<Slope>& others);
@@ -43,5 +45,8 @@ private:
 
 	bool lookingUp;
 	bool lookingDown;
+
+	int maxHealth;
+	int currentHealth;
 };
 

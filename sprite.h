@@ -20,6 +20,15 @@ public:
 
 	const Rectangle getBoundingBox() const;
 	const sides::Side getCollisionSide(Rectangle& other) const;
+
+	const inline float getX() const { return this->x; }
+	const inline float getY() const { return this->y; }
+
+	void setSourceRectX(int value);
+	void setSourceRectY(int value);
+	void setSourceRectWidth(int value);
+	void setSourceRectHeight(int value);
+
 protected:
 	SDL_Rect sourceRect;
 	SDL_Texture* spriteSheet;
@@ -27,4 +36,5 @@ protected:
 
 	Rectangle boundingBox;
 };
+
 

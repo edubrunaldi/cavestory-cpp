@@ -8,7 +8,7 @@
 
 namespace {
 	const int FPS = 50;
-	const int MAX_FRAME_TIME = 5 * 1000 / FPS;
+	const int MAX_FRAME_TIME = 1000 / FPS;
 }
 
 Game::Game() {
@@ -28,6 +28,7 @@ void Game::gameLoop() {
 	
 	this->level = Level("Map 1", Vector2(100, 100), graphics);
 	this->player = Player(graphics, this->level.getPlayerSpawnPoint());
+	this->hud = Hud(graphics, this->player);
 
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 	// Start the game loop
@@ -94,6 +95,7 @@ void Game::draw(Graphics& graphics) {
 
 	this->level.draw(graphics);
 	this->player.draw(graphics);
+	this->hud.draw(graphics);
 
 	graphics.flip();
 }
@@ -101,6 +103,7 @@ void Game::draw(Graphics& graphics) {
 void Game::update(float elapsedTime) {
 	this->player.update(elapsedTime);
 	this->level.update(elapsedTime);
+	this->hud.update(elapsedTime);
 
 	// check collisions
 	std::vector<Rectangle> others;

@@ -63,3 +63,19 @@ const sides::Side Sprite::getCollisionSide(Rectangle& other) const {
 		lowest == abs(amtBottom) ? sides::BOTTOM :
 		sides::NONE;
 }
+
+void Sprite::setSourceRectX(int value) {
+	this->sourceRect.x = value;
+}
+
+void Sprite::setSourceRectY(int value) {
+	this->sourceRect.y = value;
+}
+
+void Sprite::setSourceRectWidth(int value) {
+	this->sourceRect.w = value;
+}
+
+void Sprite::setSourceRectHeight(int value) {
+	this->sourceRect.h = value;
+}
