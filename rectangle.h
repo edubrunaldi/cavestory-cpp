@@ -47,6 +47,8 @@ public:
 		return (this->x >= 0 && this->y >= 0 && this->width >= 0 && this->height >= 0);
 	}
 
+	const inline Rectangle getRect() const { return *this; }
+
 private:
 	int x, y, width, height;
 };

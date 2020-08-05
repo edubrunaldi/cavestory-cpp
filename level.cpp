@@ -14,9 +14,8 @@ using namespace tinyxml2;
 
 Level::Level() {}
 
-Level::Level(std::string mapName, Vector2 spawnPoint, Graphics& graphics) :
+Level::Level(std::string mapName, Graphics& graphics) :
 	mapName(mapName),
-	spawnPoint(spawnPoint),
 	size(Vector2(0, 0))
 {
 	this->loadMap(mapName, graphics);
@@ -267,6 +266,40 @@ void Level::loadMap(std::string mapName, Graphics& graphics) {
 					}
 				}
 			}
+			else if (ss.str() == "doors") {
+				XMLElement* pObject = pObjectGroup->FirstChildElement("object");
+				while (pObject) {
+					float x = pObject->FloatAttribute("x");
+					float y = pObject->FloatAttribute("y");
+					float w = pObject->FloatAttribute("width");
+					float h = pObject->FloatAttribute("height");
+					Rectangle rect = Rectangle(x, y, w, h);
+
+					XMLElement* pProperties = pObject->FirstChildElement("properties");
+					while (pProperties) {
+						XMLElement* pProperty = pProperties->FirstChildElement("property");
+						while (pProperty) {
+							const char* name = pProperty->Attribute("name");
+							std::stringstream ss;
+							ss << name;
+							if (ss.str() == "destination") {
+								const char* value = pProperty->Attribute("value");
+								std::stringstream ss2;
+								ss2 << value;
+								Door door = Door(rect, ss2.str());
+								this->doorList.push_back(door);
+							}
+
+							pProperty = pProperty->NextSiblingElement("property");
+						}
+
+						pProperties = pProperties->NextSiblingElement("properties");
+					}
+
+
+					pObject = pObject->NextSiblingElement("object");
+				}
+			}
 
 			pObjectGroup = pObjectGroup->NextSiblingElement("objectgroup");
 		}
@@ -319,6 +352,17 @@ std::vector<Slope> Level::checkSlopeCollisions(const Rectangle& other)
 	for (const Slope slope : this->slopes) {
 		if (slope.collidesWith(other)) {
 			others.push_back(slope);
+		}
+	}
+	return others;
+}
+
+std::vector<Door> Level::checkDoorCollisions(const Rectangle& other)
+{
+	std::vector<Door> others;
+	for (const Door door : this->doorList) {
+		if (door.collidesWith(other)) {
+			others.push_back(door);
 		}
 	}
 	return others;

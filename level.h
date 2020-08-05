@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include "tile.h"
+#include "door.h"
 
 class Graphics;
 struct SDL_Texture;
@@ -16,7 +17,7 @@ struct Tileset;
 class Level {
 public: 
 	Level();
-	Level(std::string mapName, Vector2 spawnPoint, Graphics& graphics);
+	Level(std::string mapName, Graphics& graphics);
 	~Level();
 
 	void update(int elapsedTime);
@@ -24,6 +25,7 @@ public:
 
 	std::vector<Rectangle> checkTileCollisions(const Rectangle& other);
 	std::vector<Slope> checkSlopeCollisions(const Rectangle& other);
+	std::vector<Door> checkDoorCollisions(const Rectangle & other);
 	const Vector2 getPlayerSpawnPoint() const;
 private:
 	std::string mapName;
@@ -40,6 +42,7 @@ private:
 	std::vector<Slope> slopes;
 	std::vector<AnimatedTile> animatedTileList;
 	std::vector<AnimatedTileInfo> animatedTileInfos;
+	std::vector<Door> doorList;
 
 	void loadMap(std::string mapName, Graphics& graphics);
 	Vector2 getTilesetPosition(Tileset tls, int gid, int tileWidth, int tileHeight);

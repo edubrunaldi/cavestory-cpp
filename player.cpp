@@ -1,5 +1,8 @@
 #include "player.h"
 #include "graphics.h"
+#include "level.h"
+#include "door.h"
+
 
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
@@ -171,6 +174,19 @@ void Player::handleSlopeCollisions(std::vector<Slope>& others) {
 		if (this->grounded) {
 			this->y = newY - this->boundingBox.getHeight();
 			this->grounded = true;
+		}
+	}
+}
+
+void Player::handleDoorCollision(std::vector<Door>& others, Level& level, Graphics& graphics) {
+	// check if the player is grounded and holding the down arrow
+	// if so, go through the door
+	// if not, do nothing
+	for (int i = 0; i < others.size(); ++i) {
+		if (this->grounded && this->lookingDown) {
+			level = Level(others.at(i).getDestination(), graphics);
+			this->x = level.getPlayerSpawnPoint().x;
+			this->y = level.getPlayerSpawnPoint().y;
 		}
 	}
 }
