@@ -9,7 +9,9 @@
 #include "tile.h"
 #include "door.h"
 
+class Player;
 class Graphics;
+class Enemy;
 struct SDL_Texture;
 struct SDL_Rect;
 struct Tileset;
@@ -20,12 +22,13 @@ public:
 	Level(std::string mapName, Graphics& graphics);
 	~Level();
 
-	void update(int elapsedTime);
+	void update(int elapsedTime, Player& player);
 	void draw(Graphics& graphics);
 
 	std::vector<Rectangle> checkTileCollisions(const Rectangle& other);
 	std::vector<Slope> checkSlopeCollisions(const Rectangle& other);
 	std::vector<Door> checkDoorCollisions(const Rectangle & other);
+	std::vector<Enemy*> checkEnemyCollisions(const Rectangle& other);
 	const Vector2 getPlayerSpawnPoint() const;
 private:
 	std::string mapName;
@@ -43,6 +46,7 @@ private:
 	std::vector<AnimatedTile> animatedTileList;
 	std::vector<AnimatedTileInfo> animatedTileInfos;
 	std::vector<Door> doorList;
+	std::vector<Enemy*> enemies;
 
 	void loadMap(std::string mapName, Graphics& graphics);
 	Vector2 getTilesetPosition(Tileset tls, int gid, int tileWidth, int tileHeight);

@@ -4,6 +4,7 @@
 #include "door.h"
 
 
+
 namespace player_constants {
 	const float WALK_SPEED = 0.2f;
 	const float GRAVITY = 0.002f;
@@ -188,6 +189,18 @@ void Player::handleDoorCollision(std::vector<Door>& others, Level& level, Graphi
 			this->x = level.getPlayerSpawnPoint().x;
 			this->y = level.getPlayerSpawnPoint().y;
 		}
+	}
+}
+
+void Player::handleEnemyCollisions(std::vector<Enemy*>& others) {
+	for (int i = 0; i < others.size(); ++i) {
+		others.at(i)->touchPlayer(this);
+	}
+}
+
+void Player::gainHealth(int amount) {
+	if (this->currentHealth > 0) {
+		this->currentHealth += amount;
 	}
 }
 

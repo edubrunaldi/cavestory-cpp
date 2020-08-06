@@ -144,6 +144,8 @@
   <ItemGroup>
     <ClCompile Include="animatedSprite.cpp" />
     <ClCompile Include="animatedTile.cpp" />
+    <ClCompile Include="bat.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="graphics.cpp" />
     <ClCompile Include="hud.cpp" />
@@ -158,7 +160,9 @@
   <ItemGroup>
     <ClInclude Include="animatedSprite.h" />
     <ClInclude Include="animatedTile.h" />
+    <ClInclude Include="bat.h" />
     <ClInclude Include="door.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="graphics.h" />

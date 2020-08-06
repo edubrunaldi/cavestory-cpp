@@ -9,6 +9,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include "bat.h"
 
 using namespace tinyxml2;
 
@@ -300,6 +301,25 @@ void Level::loadMap(std::string mapName, Graphics& graphics) {
 					pObject = pObject->NextSiblingElement("object");
 				}
 			}
+			else if (ss.str() == "enemies") {
+			float x, y;
+				XMLElement* pObject = pObjectGroup->FirstChildElement("object");
+				while (pObject) {
+					x = pObject->FloatAttribute("x");
+					y = pObject->FloatAttribute("y");
+					const char* name = pObject->Attribute("name");
+					std::stringstream ss;
+					ss << name;
+					if (ss.str() == "bat") {
+						this->enemies.push_back(new Bat(graphics, Vector2(std::floor(x)* globals::SPRITE_SCALE,
+							std::floor(y)* globals::SPRITE_SCALE)));
+					}
+
+
+					pObject = pObject->NextSiblingElement("object");
+				}
+			
+			}
 
 			pObjectGroup = pObjectGroup->NextSiblingElement("objectgroup");
 		}
@@ -320,9 +340,13 @@ Vector2 Level::getTilesetPosition(Tileset tls, int gid, int tileWidth, int tileH
 	return finalTilesetPosition;
 }
 
-void Level::update(int elapsedTime) {
+void Level::update(int elapsedTime, Player& player) {
 	for (AnimatedTile& at : this->animatedTileList) {
 		at.update(elapsedTime);
+	}
+
+	for (int i = 0; i < this->enemies.size(); ++i) {
+		this->enemies.at(i)->update(elapsedTime, player);
 	}
 }
 
@@ -333,6 +357,10 @@ void Level::draw(Graphics& graphics) {
 
 	for (AnimatedTile& at : this->animatedTileList) {
 		at.draw(graphics);
+	}
+
+	for (int i = 0; i < this->enemies.size(); i++) {
+		this->enemies.at(i)->draw(graphics);
 	}
 }
 
@@ -363,6 +391,20 @@ std::vector<Door> Level::checkDoorCollisions(const Rectangle& other)
 	for (const Door door : this->doorList) {
 		if (door.collidesWith(other)) {
 			others.push_back(door);
+		}
+	}
+	return others;
+}
+
+std::vector<Enemy*> Level::checkEnemyCollisions(const Rectangle& other)
+{
+	std::vector<Enemy*> others;
+	for (int i = 0; i < this->enemies.size(); i++) {
+		if (this->enemies.at(i)->getBoundingBox().collidesWith(other)) {
+			others.push_back(this->enemies.at(i));
+		}
+		else {
+			this->enemies.at(i)->resetTouchedPlayer();
 		}
 	}
 	return others;

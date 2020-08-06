@@ -3,6 +3,7 @@
 #include "global.h"
 #include "animatedSprite.h"
 #include "slope.h"
+#include "enemy.h"
 
 class Door;
 class Level;
@@ -37,6 +38,9 @@ public:
 	void handleTileCollisions(std::vector<Rectangle>& others);
 	void handleSlopeCollisions(std::vector<Slope>& others);
 	void handleDoorCollision(std::vector<Door>& others, Level& level, Graphics& graphics);
+	void handleEnemyCollisions(std::vector<Enemy*>& others);
+	
+	void gainHealth(int amount);
 
 private:
 	float dx, dy;
